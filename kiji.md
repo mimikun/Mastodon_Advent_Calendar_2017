@@ -67,3 +67,4 @@ $ sudo locale-gen ja_JP.UTF-8
 127.0.0.1 123-456-789-012    # 追記した
 ```
 
+### Amazon S3の設定
