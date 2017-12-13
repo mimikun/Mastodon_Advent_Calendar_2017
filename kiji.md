@@ -95,6 +95,10 @@ ConoHaのオブジェクトストレージを使うという手もありまし�
 
 AWSの設定方法や登録方法はググればたくさん出てくると思うので省きます。
 
+終わったら、`.env.production`のS3の部分を以下のように編集します。
+
+![S3設定](./images/s3-settings-env-production-file.png)
+
 ### 6. Mailgunの設定
 ConoHaのメールサーバを使うという手もありましたが、公式の`.env.production`にある通り、Mailgunを使いました。
 
@@ -111,7 +115,42 @@ Mailgunの設定をします。
 
 という順番で行いました。
 
+DNSレコード設定は以下のような感じにしました。
+
+![mailgunDNSレコード設定](./images/mail-settings-env-production-file.png)
+
+そして、`.env.production`のmail部分を以下のように編集します。
+
+![mail部分](./images/mail-settings-env-production-file.png)
+
+### 7. SSL証明書の取得
+certbotで取得しました。
+証明書が切れそうになった時、メールで通知がくるのでよく使うメールアドレスを設定しておくといいです。
+
+生成にはこのコマンドを使います。
+```
+./certbot-auto certonly --standalone -d [Mastodonのドメイン] -m [よく使うメアド] --agree-tos -n
+```
+
+### 8. nginxの設定
+![公式Productionガイド nginx](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Production-guide.md#nginx-configuration)の項目を見て設定しました。
+
+この時、serverディレクティブに以下の7行を追加します。何故かProductionガイドから消されていたようです。
+
+```
+ssl_protocols TLSv1.2;
+ssl_ciphers HIGH:!MEDIUM:!LOW:!aNULL:!NULL:!SHA;
+ssl_prefer_server_ciphers on;
+ssl_session_cache shared:SSL:10m;
+
+ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+```
+
+### 9. dockerイメージ作成
+
+![Mastodon公式のDockerガイド](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Docker-Guide.md)を見てやりました。
 
 ### 終わりに
-今回インスタンスを立てるにあたり色々助言してくれた[:don:](mstdn.maud.io)の方々、ありがとうございました。
+今回インスタンスを立てるにあたり色々助言してくれた[:don:](https://mstdn.maud.io)の方々、ありがとうございました。
 この場を借りてお礼申し上げます。
