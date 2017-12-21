@@ -1,9 +1,12 @@
 # 全くの素人がConoHaとS3でMastodonインスタンスを立ててみたお話
 
-実際に完成したものは[mimikun丼](https://mstdn.mimikun.jp)になります。
-作業内容をメモしていなかったので忘れている部分もありますがご了承ください
+これは[Qiita Mastodon Advent Calendar](https://qiita.com/advent-calendar/2017/mastodon)23日目の記事になります。
 
-今回はConoHa公式のMastodonイメージは使っていません。
+お一人様インスタンス[mimikun丼](https://mstdn.mimikun.jp)の管理人をしているmimikunと申します。
+普段はPythonやJavaでプログラムを書いています。
+
+今回僕がMastodonを立てるにあたって躓いたところなどを書いていきます。
+作業内容をメモしていなかったので忘れている部分もありますがご了承ください。
 
 ## 環境など
 + macOS 10.13
@@ -13,6 +16,7 @@
 + スタードメイン
 
 ## 手順
+ちなみに、今回はConoHa公式のMastodonイメージは使っていません。
 
 ### 1. ドメインの設定
 インスタンスを立てるにあたってドメインが必要なのですが、持っていなかったので取得しました。
@@ -68,7 +72,7 @@ $ sudo apt-get update
 ```
 
 言語設定も日本語にしておきましょう。僕は後から行ったので英語が読めず、エラーメッセージをその都度Google翻訳にかけるなど無駄な時間を過ごしてしまいました。
-さらにcertbotを入れる時、python virtualenv作成がうまく行かなかったということも起きました。
+(他、certbotを入れる時、python virtualenv作成がうまく行かなかったりしました。)
 
 ```
 $ sudo apt-get install language-pack-ja
@@ -91,8 +95,6 @@ $ sudo update-locale LANG=ja_JP.UTF-8
 ### 5. オブジェクトストレージ(Amazon S3)の設定
 ConoHaのオブジェクトストレージを使うという手もありましたが、公式にある通りAmazon S3を使いました。
 
-~決して構築が面倒くさかったからではない。いいね？~
-
 AWSの設定方法や登録方法はググればたくさん出てくると思うので省きます。
 
 終わったら、`.env.production`のS3の部分を以下のように編集します。
@@ -101,8 +103,6 @@ AWSの設定方法や登録方法はググればたくさん出てくると思�
 
 ### 6. Mailgunの設定
 ConoHaのメールサーバを使うという手もありましたが、公式の`.env.production`にある通り、Mailgunを使いました。
-
-~決して(以下略~
 
 Mailgunの設定をします。
 
@@ -125,7 +125,7 @@ DNSレコード設定は以下のような感じにしました。
 
 ### 7. SSL証明書の取得
 certbotで取得しました。
-証明書が切れそうになった時、メールで通知がくるのでよく使うメールアドレスを設定しておくといいです。
+証明書が切れそうになった時、メールで通知が来るのでよく使うメールアドレスを設定しておくといいです。
 
 生成にはこのコマンドを使います。
 ```
@@ -152,5 +152,4 @@ ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 ![Mastodon公式のDockerガイド](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Docker-Guide.md)を見てやりました。
 
 ### 終わりに
-今回インスタンスを立てるにあたり色々助言してくれた[:don:](https://mstdn.maud.io)の方々、ありがとうございました。
-この場を借りてお礼申し上げます。
+今回、Mastodonインスタンスを立ててみて、サーバへの理解度が少し深まった気がします。
