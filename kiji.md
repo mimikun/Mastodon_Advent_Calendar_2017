@@ -133,7 +133,15 @@ certbotで取得しました。
 ```
 
 ### 8. nginxの設定
-![公式Productionガイド nginx](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Production-guide.md#nginx-configuration)の項目を見て設定しました。
+
+以下の通り作業します。
+
+```
+cd /etc/nginx/sites-available
+nano /etc/nginx/sites-available/example.com.conf
+```
+
+そして、[公式Productionガイド nginx](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Production-guide.md#nginx-configuration)のCopy and paste the following and make edits as necessary:以下にあるテキストをコピペします。
 
 この時、serverディレクティブに以下の7行を追加します。何故かProductionガイドから消されていたようです。
 
@@ -147,9 +155,12 @@ ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 ```
 
+詳しくは[公式Productionガイド nginx](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Production-guide.md#nginx-configuration)の方を見てください。
+
 ### 9. dockerイメージ作成
 
 ![Mastodon公式のDockerガイド](https://github.com/tootsuite/documentation/blob/master/Running-Mastodon/Docker-Guide.md)を見てやりました。
 
 ### 終わりに
 今回、Mastodonインスタンスを立ててみて、サーバへの理解度が少し深まった気がします。
+今度はPleromaインスタンス作成に挑戦してみようと思います。
